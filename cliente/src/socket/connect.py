@@ -20,13 +20,24 @@ class Manager_connect(threading.Thread):
   def data(*args):
     print('message received with ', args)
 
-  def send_msg():
+  def send_msg(self,msg):
     print ('se envio')
-    sio.emit('mensaje', 'fdsfdsfdsfd')
+    sio.emit('mensaje', '%s' % msg)
+    return True
+  
+  def close_connexion(self):
+    sio.disconnect()
 
   def run(self):
-    sio.connect('http://localhost:5000')
-    sio.wait()
+    try:
+      sio.connect('http://localhost:5000')
+      print ('Servicio cliente conectado a servidor')
+      sio.wait()
+    except:
+      print ('No se pudo establecer conexion con servidor')
+
+    
+    
 
 
 
